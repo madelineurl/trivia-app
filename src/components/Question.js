@@ -19,22 +19,24 @@ const Question = ({ data, currentQuestion, score, gameOver, total }) => {
 
   return (
     <>
-      <div>Question {currentQuestion}</div>
-      <div>{question}</div>
-      {
-        options.map((candidate, index) => (
-          <div key={index}>
-            <input
-              type='radio'
-              alt={`answer ${index}`}
-              value={candidate}
-              checked={candidate === answer}
-              onChange={handleChange}
-            />
-            {candidate}
-          </div>
-        ))
-      }
+      <div className='question-count'>Question {currentQuestion}</div>
+      <h3>{question}</h3>
+      <div className='answers-container'>
+        {
+          options.map((candidate, index) => (
+            <div key={index} className='option'>
+              <input
+                type='radio'
+                alt={`answer ${index}`}
+                value={candidate}
+                checked={candidate === answer}
+                onChange={handleChange}
+              />
+              {candidate}
+            </div>
+          ))
+        }
+      </div>
       <button onClick={submitAnswer}>Submit</button>
     </>
   )
