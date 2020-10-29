@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 import triviaData from './data/Apprentice_TandemFor400_Data.json'
 import Question from './components/Question'
+import Results from './components/Results'
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
       playing: false,
+      gameOver: false,
       currentQuestion: 0,
       score: 0,
     }
@@ -58,14 +60,25 @@ class App extends Component {
       )
     }
 
-    let { currentQuestion, score } = this.state;
+    if (this.state.gameOver) {
+      return (
+        <>
+          <div>Game over!</div>
+          <Results score={this.state.score} />
+        </>
+      )
+    }
+
+    let { currentQuestion, score, gameOver } = this.state;
     return (
       <div className="App">
         <header>
           <Question
             data={this.data[currentQuestion]}
-            questionIndex={currentQuestion}
+            currentQuestion={currentQuestion}
             score={score}
+            gameOver={gameOver}
+            total={this.data.length}
           />
         </header>
       </div>

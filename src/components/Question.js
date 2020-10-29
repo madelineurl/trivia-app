@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
-const Question = ({ data, questionIndex, score }) => {
+const Question = ({ data, currentQuestion, score, gameOver, total }) => {
   const { question, options, correct } = data;
-  const [ answer, setAnswer ] = useState('')
+  const [ answer, setAnswer ] = useState('');
 
   const handleChange = (evt) => {
     setAnswer(evt.target.value)
@@ -10,29 +10,29 @@ const Question = ({ data, questionIndex, score }) => {
 
   const submitAnswer = () => {
     if (answer === correct) score++;
-    questionIndex++;
+    currentQuestion++;
     setAnswer('');
-    console.log(score)
-    console.log(questionIndex)
+    if (currentQuestion === total) gameOver = true;
+    // console.log(score)
+    // console.log(currentQuestion)
   }
 
   return (
     <>
-      <div>Question {questionIndex}</div>
+      <div>Question {currentQuestion}</div>
       <div>{question}</div>
       {
         options.map((candidate, index) => (
-          <>
+          <div key={index}>
             <input
-              key={index}
               type='radio'
-              alt={`answer${index}`}
+              alt={`answer ${index}`}
               value={candidate}
               checked={candidate === answer}
               onChange={handleChange}
             />
             {candidate}
-          </>
+          </div>
         ))
       }
       <button onClick={submitAnswer}>Submit</button>
