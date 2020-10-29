@@ -1,20 +1,11 @@
 import { useState } from 'react'
 
-const Question = ({ data, currentQuestion, score, gameOver, total }) => {
-  const { question, options, correct } = data;
+const Question = ({ data, currentQuestion, submitAnswer  }) => {
+  const { question, options } = data;
   const [ answer, setAnswer ] = useState('');
 
   const handleChange = (evt) => {
     setAnswer(evt.target.value)
-  }
-
-  const submitAnswer = () => {
-    if (answer === correct) score++;
-    currentQuestion++;
-    setAnswer('');
-    if (currentQuestion === total) gameOver = true;
-    // console.log(score)
-    // console.log(currentQuestion)
   }
 
   return (
@@ -37,7 +28,7 @@ const Question = ({ data, currentQuestion, score, gameOver, total }) => {
           ))
         }
       </div>
-      <button onClick={submitAnswer}>Submit</button>
+      <button onClick={() => {submitAnswer(answer)}}>Submit</button>
     </>
   )
 }

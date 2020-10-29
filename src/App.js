@@ -1,29 +1,23 @@
-import React, { Component } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import triviaData from './data/Apprentice_TandemFor400_Data.json'
 import Question from './components/Question'
 import Results from './components/Results'
 
-class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      playing: false,
-      gameOver: false,
-      currentQuestion: 0,
-      score: 0,
-    }
-    this.data = triviaData;
-  }
+const App = () => {
+  const [playing, setPlaying] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [questionIdx, setQuestionIdx] = useState(0);
+  const [score, setScore] = useState(0)
 
-  componentDidMount() {
-    this.data.forEach(question => {
+  useEffect(() => {
+    triviaData.forEach(question => {
       let options = [...question.incorrect, question.correct];
-      question.options = this.shuffle(options)
+      question.options = shuffle(options)
     })
-  }
+  })
 
-   shuffle = (array, currentIdx = array.length - 1) => {
+   function shuffle (array, currentIdx = array.length - 1) {
     let randomIdx;
     let temp;
 
@@ -40,19 +34,32 @@ class App extends Component {
   }
 
 
-  startGame = () => {
-    this.setState({ playing: true })
+  const startGame = () => {
+    setPlaying(true)
   }
 
-  render() {
-    if (!this.state.playing) {
+  const submitAnswer = (answer) => {
+    const currentQuestion = triviaData[questionIdx]
+    console.log(currentQuestion.correct, answer)
+    if (answer === currentQuestion.correct) {
+      setScore(score + 1);
+    }
+    setQuestionIdx(questionIdx + 1);
+
+    if (questionIdx === triviaData.length) {
+      setGameOver(true);
+    };
+    console.log('score: ', score, 'current question: ', questionIdx)
+  }
+
+    if (!playing) {
       return (
         <div className="App">
         <header className="App-header">
           <p>
             Welcome to the Trivia App!
           </p>
-          <button onClick={this.startGame}>
+          <button onClick={startGame}>
             Play
           </button>
         </header>
@@ -60,30 +67,31 @@ class App extends Component {
       )
     }
 
-    if (this.state.gameOver) {
+    if (gameOver) {
       return (
         <>
           <div>Game over!</div>
-          <Results score={this.state.score} />
+          <Results score={score} />
         </>
       )
     }
 
-    let { currentQuestion, score, gameOver } = this.state;
     return (
       <div className="App">
         <header>
-          <Question
-            data={this.data[currentQuestion]}
-            currentQuestion={currentQuestion}
-            score={score}
-            gameOver={gameOver}
-            total={this.data.length}
-          />
+          {
+            triviaData.map((question, index) => (
+              <Question
+                key={index}
+                data={triviaData[index]}
+                currentQuestion={questionIdx}
+                submitAnswer={submitAnswer}
+              />
+            ))
+          }
         </header>
       </div>
     );
-  }
 }
 
 export default App;
