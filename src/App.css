@@ -34,13 +34,13 @@
   top: .5rem;
 }
 
-.answers-container {
+.answer-options-container {
   flex-direction: column;
   align-items: flex-start;
   position: relative;
   left: 30%;
 }
 
-.option {
+.answer-option {
   display: flex;
 }

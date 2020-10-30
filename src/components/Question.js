@@ -1,36 +1,12 @@
-import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const Question = ({ data, currentQuestion, submitAnswer  }) => {
-  const { question, options } = data;
-  const [ answer, setAnswer ] = useState('');
-
-  const handleChange = (evt) => {
-    setAnswer(evt.target.value)
-  }
-
+const Question = ({ content }) => {
   return (
-    <>
-      <div className='question-count'>Question {currentQuestion}</div>
-      <h3>{question}</h3>
-      <div className='answers-container'>
-        {
-          options.map((candidate, index) => (
-            <div key={index} className='option'>
-              <input
-                type='radio'
-                alt={`answer ${index}`}
-                value={candidate}
-                checked={candidate === answer}
-                onChange={handleChange}
-              />
-              {candidate}
-            </div>
-          ))
-        }
-      </div>
-      <button onClick={() => {submitAnswer(answer)}}>Submit</button>
-    </>
-  )
+    <h3 className='question'>{content}</h3>
+  )}
+
+Question.propTypes = {
+  currentQuestion: PropTypes.string.isRequired
 }
 
 export default Question;

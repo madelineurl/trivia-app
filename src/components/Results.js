@@ -1,6 +1,9 @@
 const Results = ({ score }) => {
   return (
-    <div>Results: you got {score} out of 21</div>
+    <>
+    <h3>Results:</h3>
+    <div>You got {score} out of 10</div>
+    </>
   )
 }
 
