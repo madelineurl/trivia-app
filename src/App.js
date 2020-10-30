@@ -121,33 +121,48 @@ class App extends Component {
     console.log('score: ', score, 'current question: ', currentQuestionIdx)
   }
 
+  renderStartScreen = () => {
+    return (
+      <div className="App">
+      <header className="App-header">
+        <p>
+          Welcome to the Trivia App!
+        </p>
+        <button onClick={this.startGame}>
+          Play
+        </button>
+      </header>
+    </div>
+    )
+  }
+
+  renderGameOver = () => {
+    return (
+      <>
+        <div>Game over!</div>
+        <Results score={this.state.score} />
+      </>
+    )
+  }
+
   render() {
     if (!this.state.playing) {
-      return (
-        <div className="App">
-        <header className="App-header">
-          <p>
-            Welcome to the Trivia App!
-          </p>
-          <button onClick={this.startGame}>
-            Play
-          </button>
-        </header>
-      </div>
-      )
+      this.renderStartScreen();
     }
 
     if (this.state.gameOver) {
-      return (
-        <>
-          <div>Game over!</div>
-          <Results score={this.state.score} />
-        </>
-      )
+      this.renderGameOver();
     }
 
+    const {
+      currentAnswer,
+      total,
+      answerOptions,
+      currentQuestion,
+      currentQuestionIdx,
+      showAnswer
+    } = this.state
 
-    const {  currentAnswer, total, answerOptions, currentQuestion, currentQuestionIdx, showAnswer } = this.state
     return (
       <div className="App">
         <header>

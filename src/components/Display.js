@@ -20,39 +20,42 @@ const Display = (props) => {
   } = props;
 
   return (
-    <div>
+    <div className='display-container'>
       <Count
         currentQuestion={counter}
         total={total}
       />
       <Question content={question}/>
-      <div>
-        <div className='answer-options-container'>
-          {
-            potentialAnswers.map(candidate => (
-              <PotentialAnswer
-                key={candidate}
-                content={candidate}
-                handleChange={handleChange}
-                selected={selected}
-                showAnswer={showAnswer}
-              />
-            ))
-          }
-          <button
-            type='button'
-            disabled={showAnswer}
-            onClick={() => {submitAnswer(selected)}}>
-              Submit
-          </button>
+      <div className='answer-options-container'>
+        {
+          potentialAnswers.map(candidate => (
+            <PotentialAnswer
+              key={candidate}
+              content={candidate}
+              handleChange={handleChange}
+              selected={selected}
+              showAnswer={showAnswer}
+            />
+          ))
+        }
+        <button
+          className='button'
+          type='button'
+          disabled={showAnswer}
+          onClick={() => {submitAnswer(selected)}}>
+            Submit
+        </button>
           {
             showAnswer &&
               <div className='correct-answer'>
                 <div>Answer: {answer}</div>
-                <button onClick={nextQuestion}>Next</button>
+                <button
+                  className='button'
+                  onClick={nextQuestion}>
+                    Next question
+                </button>
               </div>
           }
-        </div>
       </div>
     </div>
   )

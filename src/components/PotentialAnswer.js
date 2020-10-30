@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 
 const PotentialAnswer = ({ selected, content, handleChange, showAnswer }) => {
   return (
-    <div className='answer-option'>
+    <div className='answer-option flex'>
         <input
           type='radio'
           alt='answer-option'

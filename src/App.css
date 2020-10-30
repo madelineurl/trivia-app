@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background: grey;
 }
 
 .App-logo {
@@ -24,8 +25,11 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.display-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: white;
 }
 
 .question-count {
@@ -34,17 +38,32 @@
   top: .5rem;
 }
 
+.question {
+  border: 2px solid grey;
+  background: whitesmoke;
+  padding: 1rem;
+  height: 2rem;
+  text-align: center;
+}
+
 .answer-options-container {
   flex-direction: column;
   align-items: flex-start;
-  position: relative;
-  left: 30%;
 }
 
-.answer-option {
+.flex {
   display: flex;
 }
 
+/* .answer-option {
+  display: flex;
+} */
+
 .correct-answer {
-  display: flex
+  background: green;
+  margin-top: 2rem;
+}
+
+.button {
+
 }
