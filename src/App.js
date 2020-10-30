@@ -9,6 +9,7 @@ class App extends Component {
     this.state = {
       playing: false,
       gameOver: false,
+      showAnswer: false,
       tenQuestions: [],
       currentQuestion: '',
       currentAnswer: '',
@@ -66,13 +67,13 @@ class App extends Component {
     return array;
   }
 
+  setQuestion = () => {
+    const { tenQuestions, currentQuestionIdx } = this.state
+    const firstQuestion = tenQuestions[currentQuestionIdx]
 
-  startGame = () => {
-    // when we start the game, we load the first question
-    const firstQuestion = this.state.tenQuestions[0]
     const { question, correct, incorrect } = firstQuestion;
     firstQuestion.options = [...incorrect, correct]
-     // shuffle all the answers
+     // shuffle all possible answers
     this.shuffle(firstQuestion.options);
 
     this.setState({
@@ -83,10 +84,20 @@ class App extends Component {
     });
   }
 
+
+  startGame = () => {
+    // when we start the game, we set playing to true and load the first question
+    this.setState({ playing: true })
+    this.setQuestion()
+  }
+
+
   nextQuestion = () => {
     const { tenQuestions, currentQuestionIdx } = this.state
-    this.shuffle(tenQuestions[currentQuestionIdx])
+    this.setQuestion(tenQuestions[currentQuestionIdx]);
+    this.setState({ showAnswer: false })
   }
+
 
   submitAnswer = (answer) => {
     const { currentAnswer, score, currentQuestionIdx, total } = this.state;
@@ -98,17 +109,15 @@ class App extends Component {
     }
 
     this.setState({
-      currentQuestionIdx: currentQuestionIdx + 1
+      currentQuestionIdx: currentQuestionIdx + 1,
+      showAnswer: true
     })
 
     if (currentQuestionIdx === total) {
       this.setState({
         gameOver: true
       })
-    } else {
-      this.nextQuestion()
     }
-
     console.log('score: ', score, 'current question: ', currentQuestionIdx)
   }
 
@@ -138,7 +147,7 @@ class App extends Component {
     }
 
 
-    const {  currentAnswer, total, answerOptions, currentQuestion, currentQuestionIdx } = this.state
+    const {  currentAnswer, total, answerOptions, currentQuestion, currentQuestionIdx, showAnswer } = this.state
     return (
       <div className="App">
         <header>
@@ -149,6 +158,8 @@ class App extends Component {
             potentialAnswers={answerOptions}
             counter={currentQuestionIdx}
             submitAnswer={this.submitAnswer}
+            showAnswer={showAnswer}
+            nextQuestion={this.nextQuestion}
           />
         </header>
       </div>

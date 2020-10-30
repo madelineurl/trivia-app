@@ -9,7 +9,7 @@ const Display = (props) => {
     setSelected(evt.target.value)
   }
 
-  const { counter, total, question, potentialAnswers, submitAnswer } = props;
+  const { counter, total, question, answer, potentialAnswers, submitAnswer, showAnswer, nextQuestion } = props;
   return (
     <div>
       <Count
@@ -19,17 +19,28 @@ const Display = (props) => {
       <Question content={question}/>
       <div className='answer-options-container'>
         {
-          potentialAnswers.map(candidate => (
-            <PotentialAnswer
-              key={candidate}
-              content={candidate}
-              handleChange={handleChange}
-              selected={selected}
-            />
-          ))
+          showAnswer ? (
+            <>
+              <div>Answer: {answer}</div>
+              <button onClick={nextQuestion}>Next</button>
+            </>
+          ) : (
+            <>
+              {
+                potentialAnswers.map(candidate => (
+                  <PotentialAnswer
+                    key={candidate}
+                    content={candidate}
+                    handleChange={handleChange}
+                    selected={selected}
+                  />
+                ))
+              }
+              <button type='button' onClick={() => {submitAnswer(selected)}}>Submit</button>
+           </>
+          )
         }
       </div>
-      <button type='button' onClick={() => {submitAnswer(selected)}}>Submit</button>
     </div>
   )
 }
@@ -40,7 +51,8 @@ Display.propTypes = {
   question: PropTypes.string.isRequired,
   answer: PropTypes.string.isRequired,
   potentialAnswers: PropTypes.array.isRequired,
-  submitAnswer: PropTypes.func.isRequired
+  submitAnswer: PropTypes.func.isRequired,
+  nextQuestion: PropTypes.func.isRequired
 }
 
 export default Display;
