@@ -121,6 +121,21 @@ class App extends Component {
     console.log('score: ', score, 'current question: ', currentQuestionIdx)
   }
 
+  resetGame = () => {
+    this.setState({
+      playing: true,
+      gameOver: false,
+      showAnswer: false,
+      tenQuestions: [],
+      currentQuestion: '',
+      currentAnswer: '',
+      answerOptions: [],
+      currentQuestionIdx: 0,
+      score: 0,
+      total: 9,
+    })
+  }
+
   renderStartScreen = () => {
     return (
       <div className="App">
@@ -147,11 +162,28 @@ class App extends Component {
 
   render() {
     if (!this.state.playing) {
-      this.renderStartScreen();
+      return (
+        <div className="app">
+        <header className="app header">
+          <h2>
+            Welcome to the Trivia App!
+          </h2>
+          <p>Each round consists of 10 questions. Click play to get started.</p>
+          <button onClick={this.startGame}>
+            Play
+          </button>
+        </header>
+      </div>
+      )
     }
 
     if (this.state.gameOver) {
-      this.renderGameOver();
+      return (
+        <>
+          <div>Game over!</div>
+          <Results score={this.state.score} resetGame={this.resetGame}/>
+        </>
+      )
     }
 
     const {
@@ -164,8 +196,8 @@ class App extends Component {
     } = this.state
 
     return (
-      <div className="App">
-        <header>
+      <div className="app">
+        <header className="game header">
           <Display
             question={currentQuestion}
             answer={currentAnswer}

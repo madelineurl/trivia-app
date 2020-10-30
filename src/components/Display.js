@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { Question, PotentialAnswer, Count } from '../components/'
 
 const Display = (props) => {
-  const [selected, setSelected] = useState('')
+  const [selected, setSelected] = useState('');
 
   const handleChange = (evt) => {
     setSelected(evt.target.value)
   }
+
   const {
     counter,
     total,
@@ -19,6 +20,8 @@ const Display = (props) => {
     nextQuestion
   } = props;
 
+  const answerColor = selected === answer ? 'correct' : 'incorrect'
+
   return (
     <div className='display-container'>
       <Count
@@ -26,7 +29,7 @@ const Display = (props) => {
         total={total}
       />
       <Question content={question}/>
-      <div className='answer-options-container'>
+      <div className='answer-options-container flex'>
         {
           potentialAnswers.map(candidate => (
             <PotentialAnswer
@@ -45,14 +48,16 @@ const Display = (props) => {
           onClick={() => {submitAnswer(selected)}}>
             Submit
         </button>
+      </div>
+      <div className='show-answer'>
           {
             showAnswer &&
               <div className='correct-answer'>
-                <div>Answer: {answer}</div>
+                <div className={answerColor}>{answer}</div>
                 <button
                   className='button'
                   onClick={nextQuestion}>
-                    Next question
+                    →
                 </button>
               </div>
           }
