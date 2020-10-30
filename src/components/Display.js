@@ -23,46 +23,50 @@ const Display = (props) => {
   const answerColor = selected === answer ? 'correct' : 'incorrect'
 
   return (
-    <div className='display-container'>
+    <>
       <Count
-        currentQuestion={counter}
-        total={total}
-      />
-      <Question content={question}/>
-      <div className='answer-options-container flex'>
-        {
-          potentialAnswers.map(candidate => (
-            <PotentialAnswer
-              key={candidate}
-              content={candidate}
-              handleChange={handleChange}
-              selected={selected}
-              showAnswer={showAnswer}
-            />
-          ))
-        }
-        <button
-          className='button'
-          type='button'
-          disabled={showAnswer}
-          onClick={() => {submitAnswer(selected)}}>
-            Submit
-        </button>
-      </div>
-      <div className='show-answer'>
+          currentQuestion={counter}
+          total={total}
+        />
+      <div className='display-container'>
+        <Question content={question}/>
+        <div className='answer-options-container flex'>
+          <div>
           {
-            showAnswer &&
-              <div className='correct-answer'>
-                <div className={answerColor}>{answer}</div>
-                <button
-                  className='button'
-                  onClick={nextQuestion}>
-                    →
-                </button>
-              </div>
+            potentialAnswers.map(candidate => (
+              <PotentialAnswer
+                key={candidate}
+                content={candidate}
+                handleChange={handleChange}
+                selected={selected}
+                showAnswer={showAnswer}
+              />
+            ))
           }
+          <button
+            className='button'
+            type='button'
+            disabled={showAnswer}
+            onClick={() => {submitAnswer(selected)}}>
+              Submit
+          </button>
+          </div>
+        <div className='show-answer'>
+            {
+              showAnswer &&
+                <div className='correct-answer'>
+                  <div className={answerColor}>{answer}</div>
+                  <button
+                    className='button'
+                    onClick={nextQuestion}>
+                      →
+                  </button>
+                </div>
+            }
+        </div>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

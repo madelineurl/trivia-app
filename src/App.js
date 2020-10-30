@@ -169,7 +169,7 @@ class App extends Component {
           <h2>
             Welcome to the Trivia App!
           </h2>
-          <p>Each round consists of 10 questions. Click play to get started.</p>
+          <p>Each round consists of 10 questions.</p>
           <button onClick={this.startGame}>
             Play
           </button>
@@ -198,8 +198,9 @@ class App extends Component {
     } = this.state
 
     return (
-      <div className="app">
+      // <div className="app">
         <header className="game header">
+          <div className="app">
           <Display
             question={currentQuestion}
             answer={currentAnswer}
@@ -210,8 +211,9 @@ class App extends Component {
             showAnswer={showAnswer}
             nextQuestion={this.nextQuestion}
           />
+          </div>
         </header>
-      </div>
+      // </div>
     );
   }
 }
