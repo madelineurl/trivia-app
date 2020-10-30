@@ -6,7 +6,7 @@ const Question = ({ content }) => {
   )}
 
 Question.propTypes = {
-  currentQuestion: PropTypes.string.isRequired
+  content: PropTypes.string.isRequired
 }
 
 export default Question;

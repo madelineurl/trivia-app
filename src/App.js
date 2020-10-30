@@ -13,14 +13,14 @@ class App extends Component {
       currentQuestion: '',
       currentAnswer: '',
       answerOptions: [],
-      currentQuestionId: 0,
+      currentQuestionIdx: 0,
       score: 0,
       total: 10,
     }
   }
 
   componentDidMount() {
-    // when the component mounts, we pick ten random questions from the provided data
+    // when the component mounts, pick ten random questions from the provided data
     this.pickTenRandomQuestions(triviaData);
   }
 
@@ -50,6 +50,7 @@ class App extends Component {
   }
 
   shuffle = (array, currentIdx = array.length - 1) => {
+    // use classic array shuffling algorithm to shuffle answer options
     let randomIdx;
     let temp;
 
@@ -67,22 +68,50 @@ class App extends Component {
 
 
   startGame = () => {
-    this.setState({ playing: true })
+    // when we start the game, we load the first question
+    const firstQuestion = this.state.tenQuestions[0]
+    const { question, correct, incorrect } = firstQuestion;
+    firstQuestion.options = [...incorrect, correct]
+     // shuffle all the answers
+    this.shuffle(firstQuestion.options);
+
+    this.setState({
+      playing: true,
+      currentQuestion: question,
+      currentAnswer: correct,
+      answerOptions: firstQuestion.options
+    });
   }
 
-  // submitAnswer = (answer) => {
-  //   const currentQuestion = triviaData[questionIdx]
-  //   console.log(currentQuestion.correct, answer)
-  //   if (answer === currentQuestion.correct) {
-  //     setScore(score + 1);
-  //   }
-  //   setQuestionIdx(questionIdx + 1);
+  nextQuestion = () => {
+    const { tenQuestions, currentQuestionIdx } = this.state
+    this.shuffle(tenQuestions[currentQuestionIdx])
+  }
 
-  //   if (questionIdx === triviaData.length) {
-  //     setGameOver(true);
-  //   };
-  //   console.log('score: ', score, 'current question: ', questionIdx)
-  // }
+  submitAnswer = (answer) => {
+    const { currentAnswer, score, currentQuestionIdx, total } = this.state;
+
+    this.setState({
+      currentQuestionIdx: currentQuestionIdx + 1
+    })
+
+    if (currentQuestionIdx === total) {
+      this.setState({
+        gameOver: true
+      })
+    };
+
+    if (answer === currentAnswer) {
+      this.setState({
+        score: score + 1
+      })
+    }
+
+    this.nextQuestion();
+
+    //console.log('score: ', score, 'current question: ', currentQuestionIdx)
+  }
+
   render() {
     if (!this.state.playing) {
       return (
@@ -108,20 +137,18 @@ class App extends Component {
       )
     }
 
-    //before mapping, we shuffle the answers for the chosen 10 questions
-    this.state.allQuestions.forEach(question => {
-      let options = [...question.incorrect, question.correct];
-      question.options = this.shuffle(options)
-    })
 
-    const { question, answer, total } = this.state
+    const {  currentAnswer, total, answerOptions, currentQuestion, currentQuestionIdx } = this.state
     return (
       <div className="App">
         <header>
           <Display
             question={currentQuestion}
-            answer={answer}
+            answer={currentAnswer}
             total={total}
+            potentialAnswers={answerOptions}
+            counter={currentQuestionIdx}
+            submitAnswer={this.submitAnswer}
           />
         </header>
       </div>

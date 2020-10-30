@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types'
 
-const PotentialAnswer = ( props ) => {
-  const { index, answer, content, handleSelected } = props
+const PotentialAnswer = ({ selected, content, handleChange }) => {
   return (
     <div className='answer-option'>
         <input
           type='radio'
-          alt={`answer ${index}`}
+          alt='answer-option'
           value={content}
-          checked={content === answer}
-          onChange={handleSelected}
+          checked={content === selected}
+          onChange={handleChange}
         />
-        <label htmlFor={answer}>
+        <label htmlFor={content}>
           {content}
         </label>
     </div>
@@ -19,9 +18,8 @@ const PotentialAnswer = ( props ) => {
 }
 
 PotentialAnswer.propTypes = {
-  answerType: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-  handleSelected: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired
 }
 
 export default PotentialAnswer
