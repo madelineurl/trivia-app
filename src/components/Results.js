@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 const Results = ({ score, resetGame }) => {
   return (
     <>
-    <h3>Results:</h3>
-    <div>You got {score} out of 10</div>
-    <button type='button' onClick={resetGame}>Play again</button>
+      <h2>Game over!</h2>
+      <div>You got {score} out of 10</div>
+      <button type='button' onClick={resetGame}>Play again</button>
     </>
   )
 }

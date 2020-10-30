@@ -34,7 +34,7 @@ class App extends Component {
     }
 
     for (let i = 0; i < 10; i++) {
-      // doing inner loop here until we get a non random number to be sure it's randomized
+      // doing an inner loop here to make sure we get ten total questions, and that they are randomized
       // but it's bad (quadratic) time complexity!
       let randomNum = getRandomNum()
       while (randomIndices.includes(randomNum)) {
@@ -123,7 +123,7 @@ class App extends Component {
 
   resetGame = () => {
     this.setState({
-      playing: true,
+      playing: false,
       gameOver: false,
       showAnswer: false,
       tenQuestions: [],
@@ -179,10 +179,11 @@ class App extends Component {
 
     if (this.state.gameOver) {
       return (
-        <>
-          <div>Game over!</div>
-          <Results score={this.state.score} resetGame={this.resetGame}/>
-        </>
+        <div className='app'>
+          <header className='app header'>
+            <Results score={this.state.score} resetGame={this.resetGame}/>
+          </header>
+        </div>
       )
     }
 
