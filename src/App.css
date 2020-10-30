@@ -44,3 +44,7 @@
 .answer-option {
   display: flex;
 }
+
+.correct-answer {
+  display: flex
+}

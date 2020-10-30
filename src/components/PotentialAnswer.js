@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-const PotentialAnswer = ({ selected, content, handleChange }) => {
+const PotentialAnswer = ({ selected, content, handleChange, showAnswer }) => {
   return (
     <div className='answer-option'>
         <input
@@ -9,6 +9,7 @@ const PotentialAnswer = ({ selected, content, handleChange }) => {
           value={content}
           checked={content === selected}
           onChange={handleChange}
+          disabled={showAnswer}
         />
         <label htmlFor={content}>
           {content}

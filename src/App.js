@@ -95,7 +95,7 @@ class App extends Component {
   nextQuestion = () => {
     const { tenQuestions, currentQuestionIdx } = this.state
     this.setQuestion(tenQuestions[currentQuestionIdx]);
-    this.setState({ showAnswer: false })
+    this.setState({ showAnswer: false})
   }
 
 
