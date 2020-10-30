@@ -15,7 +15,7 @@ class App extends Component {
       answerOptions: [],
       currentQuestionIdx: 0,
       score: 0,
-      total: 10,
+      total: 9,
     }
   }
 
@@ -91,6 +91,12 @@ class App extends Component {
   submitAnswer = (answer) => {
     const { currentAnswer, score, currentQuestionIdx, total } = this.state;
 
+    if (answer === currentAnswer) {
+      this.setState({
+        score: score + 1
+      })
+    }
+
     this.setState({
       currentQuestionIdx: currentQuestionIdx + 1
     })
@@ -99,17 +105,11 @@ class App extends Component {
       this.setState({
         gameOver: true
       })
-    };
-
-    if (answer === currentAnswer) {
-      this.setState({
-        score: score + 1
-      })
+    } else {
+      this.nextQuestion()
     }
 
-    this.nextQuestion();
-
-    //console.log('score: ', score, 'current question: ', currentQuestionIdx)
+    console.log('score: ', score, 'current question: ', currentQuestionIdx)
   }
 
   render() {

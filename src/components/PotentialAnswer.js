@@ -19,6 +19,7 @@ const PotentialAnswer = ({ selected, content, handleChange }) => {
 
 PotentialAnswer.propTypes = {
   content: PropTypes.string.isRequired,
+  selected: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired
 }
 
