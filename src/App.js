@@ -134,6 +134,7 @@ class App extends Component {
       score: 0,
       total: 9,
     })
+    this.pickTenRandomQuestions(triviaData);
   }
 
   renderStartScreen = () => {
