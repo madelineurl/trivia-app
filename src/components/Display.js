@@ -32,24 +32,24 @@ const Display = (props) => {
         <Question content={question}/>
         <div className='answer-options-container flex'>
           <div>
-          {
-            potentialAnswers.map(candidate => (
-              <PotentialAnswer
-                key={candidate}
-                content={candidate}
-                handleChange={handleChange}
-                selected={selected}
-                showAnswer={showAnswer}
-              />
-            ))
-          }
-          <button
-            className='button'
-            type='button'
-            disabled={showAnswer}
-            onClick={() => {submitAnswer(selected)}}>
-              Submit
-          </button>
+            {
+              potentialAnswers.map(candidate => (
+                <PotentialAnswer
+                  key={candidate}
+                  content={candidate}
+                  handleChange={handleChange}
+                  selected={selected}
+                  showAnswer={showAnswer}
+                />
+              ))
+            }
+            <button
+              className='button'
+              type='button'
+              disabled={showAnswer}
+              onClick={() => {submitAnswer(selected)}}>
+                Submit
+            </button>
           </div>
         <div className='show-answer'>
             {

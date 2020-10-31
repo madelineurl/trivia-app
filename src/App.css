@@ -1,6 +1,6 @@
 .header {
   background-color: whitesmoke;
-  color: #606a80;
+  color: #596276;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -13,12 +13,7 @@
 }
 
 .app {
-  font-size: calc(10px + 2vmin);
-}
-
-.game {
-  font-size: 1rem;
-  background: rgb(197, 195, 195);
+  font-size: calc(5px + 2vmin);
 }
 
 .display-container {
@@ -27,10 +22,12 @@
   align-items: flex-start;
   flex-wrap: wrap;
   position: relative;
+  width: 500px;
+  height: 300px;
   top: 15vh;
   border: 1px solid white;
-  border-radius: 5px;
-  background: whitesmoke;
+  border-radius: 10px;
+  background: rgb(197, 195, 195);
 }
 
 .question-count {
@@ -41,23 +38,23 @@
 
 .question {
   /* border: 2px solid grey; */
+  /* text-align: center; */
   padding: 1rem;
-  width: 80%;
+  width: 100%;
   flex-wrap: wrap;
 }
 
 .answer-options-container {
   flex-direction: row;
-  justify-content: space-evenly;
-  padding: 1rem;
 }
 
 .answer-option {
   align-self: flex-start;
+  margin: .3rem;
 }
 
 .show-answer {
-  margin-left: 15rem;
+  margin-left: 10rem;
 }
 
 .correct-answer {
@@ -65,12 +62,12 @@
 }
 
 .correct {
-  color: green;
+  color: rgb(2, 82, 2);
   font-weight: bold;
 }
 
 .incorrect {
-  color: red;
+  color: rgb(167, 3, 3);
   font-weight: bold;
 }
 

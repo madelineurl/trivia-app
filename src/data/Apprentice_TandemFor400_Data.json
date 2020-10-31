@@ -108,5 +108,41 @@
       "Purchase indulgences"
     ],
     "correct": "Perform transactions in Latin"
+  },
+  {
+    "question": "What is a group of turkeys called?",
+    "incorrect": [
+      "A clutch",
+      "A brood",
+      "A peep"
+    ],
+    "correct": "A rafter"
+  },
+  {
+    "question": "What is the technical term for the “brain” of your computer?",
+    "incorrect": [
+      "Hard drive",
+      "RAM",
+      "Motherboard"
+    ],
+    "correct": "CPU"
+  },
+  {
+    "question": "What was Google's original name?",
+    "incorrect": [
+      "Googol",
+      "Oneshot",
+      "Typist"
+    ],
+    "correct": "Backrub"
+  },
+  {
+    "question": "Who is the solo artist with the most number one singles in the history of music?",
+    "incorrect": [
+      "Madonna",
+      "Michael Jackson",
+      "Elvis Presley"
+    ],
+    "correct": "Mariah Carey"
   }
 ]
