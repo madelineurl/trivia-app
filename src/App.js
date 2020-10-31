@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import './App.css';
 import triviaData from './data/Apprentice_TandemFor400_Data.json'
-import { Display, Results } from './components'
+import { StartScreen, Display, EndScreen } from './components'
 
 class App extends Component {
   constructor() {
@@ -12,7 +12,8 @@ class App extends Component {
       showAnswer: false,
       tenQuestions: [],
       currentQuestion: '',
-      currentAnswer: '',
+      correctAnswer: '',
+      userAnswer: '',
       answerOptions: [],
       currentQuestionIdx: 0,
       score: 0,
@@ -25,13 +26,9 @@ class App extends Component {
     this.pickTenRandomQuestions(triviaData);
   }
 
-  pickTenRandomQuestions = (array) => {
+  pickTenRandomQuestions = (data) => {
     let questions = [];
     let randomIndices = [];
-
-    function getRandomNum() {
-      return Math.floor(Math.random() * triviaData.length);
-    }
 
     for (let i = 0; i < 10; i++) {
       // doing an inner loop here to make sure we get ten total questions, and that they are randomized
@@ -43,11 +40,17 @@ class App extends Component {
       randomIndices.push(randomNum)
     }
 
-    array.forEach((question, index) => {
-      if (randomIndices.includes(index)) questions.push(question)
+    data.forEach((question, index) => {
+      if (randomIndices.includes(index)) {
+        questions.push(question)
+      }
     })
 
     this.setState({ tenQuestions: [...questions] });
+
+    function getRandomNum() {
+      return Math.floor(Math.random() * triviaData.length);
+    }
   }
 
   shuffle = (array, currentIdx = array.length - 1) => {
@@ -68,57 +71,82 @@ class App extends Component {
   }
 
   setQuestion = () => {
+    // grab the appropriate question using the ten questions and our current question index
     const { tenQuestions, currentQuestionIdx } = this.state
-    const firstQuestion = tenQuestions[currentQuestionIdx]
+    const currentQuestion = tenQuestions[currentQuestionIdx]
 
-    const { question, correct, incorrect } = firstQuestion;
-    firstQuestion.options = [...incorrect, correct]
-     // shuffle all possible answers
-    this.shuffle(firstQuestion.options);
+    const { question, correct, incorrect } = currentQuestion;
+    currentQuestion.options = [...incorrect, correct]
+     // shuffle all possible answers, and add a property on the currentQuestion object
+     // to hold the shuffled answers
+    this.shuffle(currentQuestion.options);
 
     this.setState({
-      playing: true,
       currentQuestion: question,
-      currentAnswer: correct,
-      answerOptions: firstQuestion.options
+      correctAnswer: correct,
+      answerOptions: currentQuestion.options
     });
   }
 
 
   startGame = () => {
-    // when we start the game, we set playing to true and load the first question
+    // when we start the game, we set playing to true and load the first question from our randomized questions list
     this.setState({ playing: true })
     this.setQuestion()
   }
 
-
   nextQuestion = () => {
     const { tenQuestions, currentQuestionIdx } = this.state
+    const nextQuestionIdx = currentQuestionIdx + 1;
     this.setQuestion(tenQuestions[currentQuestionIdx]);
-    this.setState({ showAnswer: false})
-  }
-
-
-  submitAnswer = (answer) => {
-    const { currentAnswer, score, currentQuestionIdx, total } = this.state;
-
-    if (answer === currentAnswer) {
-      this.setState({
-        score: score + 1
-      })
-    }
-
     this.setState({
-      currentQuestionIdx: currentQuestionIdx + 1,
-      showAnswer: true
+      showAnswer: false,
+      currentQuestionIdx: nextQuestionIdx
     })
 
-    if (currentQuestionIdx === total) {
+    if (currentQuestionIdx === this.state.total) {
       this.setState({
         gameOver: true
       })
     }
-    console.log('score: ', score, 'current question: ', currentQuestionIdx)
+  }
+
+  setUserAnswer = (evt) => {
+    console.log(evt.target.value)
+    this.setState({ userAnswer: evt.target.value })
+  }
+
+  submitAnswer = () => {
+    const { correctAnswer, score, userAnswer } = this.state;
+    if (userAnswer) {
+      //const nextQuestionIdx = currentQuestionIdx + 1;
+
+      if (userAnswer === correctAnswer) {
+        const newScore = score + 1;
+        this.setState({
+          score: newScore
+        })
+      }
+      const answerColor = userAnswer === correctAnswer ? 'correct' : 'incorrect'
+
+      this.setState({
+        //currentQuestionIdx: nextQuestionIdx,
+        showAnswer: true,
+        answerColor,
+        userAnswer: ''
+      })
+
+      //setTimeout(() => this.nextQuestion(), 1500)
+
+      // if (currentQuestionIdx === total) {
+      //   setTimeout(() => {
+      //     this.setState({
+      //       gameOver: true
+      //     })
+      //   }, 1000)
+      // }
+      //console.log('score: ', score, 'current question: ', currentQuestionIdx)
+    }
   }
 
   resetGame = () => {
@@ -128,7 +156,7 @@ class App extends Component {
       showAnswer: false,
       tenQuestions: [],
       currentQuestion: '',
-      currentAnswer: '',
+      correctAnswer: '',
       answerOptions: [],
       currentQuestionIdx: 0,
       score: 0,
@@ -137,64 +165,27 @@ class App extends Component {
     this.pickTenRandomQuestions(triviaData);
   }
 
-  renderStartScreen = () => {
-    return (
-      <div className="App">
-      <header className="App-header">
-        <p>
-          Welcome to the Trivia App!
-        </p>
-        <button onClick={this.startGame}>
-          Play
-        </button>
-      </header>
-    </div>
-    )
-  }
-
-  renderGameOver = () => {
-    return (
-      <>
-        <div>Game over!</div>
-        <Results score={this.state.score} />
-      </>
-    )
-  }
-
   render() {
     if (!this.state.playing) {
-      return (
-        <div className="app">
-        <header className="app header">
-          <h2>
-            Welcome to the Trivia App!
-          </h2>
-          <p>Each round consists of 10 questions.</p>
-          <button onClick={this.startGame}>
-            Play
-          </button>
-        </header>
-      </div>
-      )
+      return  <StartScreen startGame={this.startGame} />
     }
 
     if (this.state.gameOver) {
-      return (
-        <div className='app'>
-          <header className='app header'>
-            <Results score={this.state.score} resetGame={this.resetGame}/>
-          </header>
-        </div>
-      )
+      return <EndScreen
+                resetGame={this.resetGame}
+                score={this.state.score}
+              />
     }
 
     const {
-      currentAnswer,
+      correctAnswer,
       total,
       answerOptions,
+      userAnswer,
       currentQuestion,
       currentQuestionIdx,
-      showAnswer
+      showAnswer,
+      answerColor
     } = this.state
 
     return (
@@ -203,13 +194,16 @@ class App extends Component {
           <div className="app">
           <Display
             question={currentQuestion}
-            answer={currentAnswer}
+            answer={correctAnswer}
             total={total}
             potentialAnswers={answerOptions}
             counter={currentQuestionIdx}
+            userAnswer={userAnswer}
+            setUserAnswer={this.setUserAnswer}
             submitAnswer={this.submitAnswer}
             showAnswer={showAnswer}
             nextQuestion={this.nextQuestion}
+            answerColor={answerColor}
           />
           </div>
         </header>

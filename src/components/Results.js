@@ -5,7 +5,11 @@ const Results = ({ score, resetGame }) => {
     <>
       <h2>Game over!</h2>
       <div>You got {score} out of 10</div>
-      <button type='button' onClick={resetGame}>Play again</button>
+      <button
+        type='button'
+        onClick={resetGame}>
+          Play again
+      </button>
     </>
   )
 }

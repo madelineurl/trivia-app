@@ -1,26 +1,20 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Question, PotentialAnswer, Count } from '../components/'
 
 const Display = (props) => {
-  const [selected, setSelected] = useState('');
-
-  const handleChange = (evt) => {
-    setSelected(evt.target.value)
-  }
-
   const {
     counter,
     total,
     question,
     answer,
     potentialAnswers,
+    userAnswer,
+    setUserAnswer,
     submitAnswer,
     showAnswer,
+    answerColor,
     nextQuestion
   } = props;
-
-  const answerColor = selected === answer ? 'correct' : 'incorrect'
 
   return (
     <>
@@ -37,8 +31,8 @@ const Display = (props) => {
                 <PotentialAnswer
                   key={candidate}
                   content={candidate}
-                  handleChange={handleChange}
-                  selected={selected}
+                  handleChange={setUserAnswer}
+                  selected={userAnswer}
                   showAnswer={showAnswer}
                 />
               ))
@@ -47,7 +41,7 @@ const Display = (props) => {
               className='button'
               type='button'
               disabled={showAnswer}
-              onClick={() => {submitAnswer(selected)}}>
+              onClick={submitAnswer}>
                 Submit
             </button>
           </div>
@@ -76,9 +70,11 @@ Display.propTypes = {
   question: PropTypes.string.isRequired,
   answer: PropTypes.string.isRequired,
   potentialAnswers: PropTypes.array.isRequired,
+  setUserAnswer: PropTypes.func.isRequired,
   submitAnswer: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
-  showAnswer: PropTypes.bool.isRequired
+  showAnswer: PropTypes.bool.isRequired,
+  answerColor: PropTypes.string.isRequired
 }
 
 export default Display;
