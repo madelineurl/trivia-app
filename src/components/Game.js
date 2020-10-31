@@ -23,6 +23,7 @@ class Game extends Component {
 
   componentDidMount() {
     // when the component mounts, pick ten random questions from the provided data
+    // and set them as the current questions on the current gameState
     this.pickTenRandomQuestions(triviaData);
   }
 
@@ -31,8 +32,7 @@ class Game extends Component {
     let randomIndices = [];
 
     for (let i = 0; i < 10; i++) {
-      // doing an inner loop here to make sure we get ten total questions, and that they are randomized
-      // but it's bad (quadratic) time complexity!
+      // doing an inner loop here to make sure we get ten total questions, and that they are randomized. But, it's bad (quadratic) time complexity!
       let randomNum = getRandomNum()
       while (randomIndices.includes(randomNum)) {
         randomNum = getRandomNum()
@@ -70,10 +70,9 @@ class Game extends Component {
     return array;
   }
 
-  setQuestion = () => {
-    // grab the appropriate question using the ten questions and our current question index
-    const { tenQuestions, currentQuestionIdx } = this.state
-    const currentQuestion = tenQuestions[currentQuestionIdx]
+  setQuestion = (index) => {
+    // grab the appropriate question using our current question index
+    const currentQuestion = this.state.tenQuestions[index]
 
     const { question, correct, incorrect } = currentQuestion;
     currentQuestion.options = [...incorrect, correct]
@@ -88,65 +87,53 @@ class Game extends Component {
     });
   }
 
-  startGame = () => {
-    // when we start the game, we set playing to true and load the first question from our randomized questions list
-    this.setState({ playing: true })
-    this.setQuestion()
-  }
-
   setUserAnswer = (evt) => {
-    console.log(evt.target.value)
     this.setState({ userAnswer: evt.target.value })
   }
 
   submitAnswer = () => {
     const { correctAnswer, score, userAnswer } = this.state;
-    if (userAnswer) {
-      //const nextQuestionIdx = currentQuestionIdx + 1;
+    const answerColor = userAnswer === correctAnswer ? 'correct' : 'incorrect'
 
+    if (userAnswer) {
       if (userAnswer === correctAnswer) {
         const newScore = score + 1;
         this.setState({
           score: newScore
         })
       }
-      const answerColor = userAnswer === correctAnswer ? 'correct' : 'incorrect'
 
       this.setState({
-        //currentQuestionIdx: nextQuestionIdx,
         showAnswer: true,
         answerColor,
         userAnswer: ''
       })
-
-      //setTimeout(() => this.nextQuestion(), 1500)
-
-      // if (currentQuestionIdx === total) {
-      //   setTimeout(() => {
-      //     this.setState({
-      //       gameOver: true
-      //     })
-      //   }, 1000)
-      // }
-      //console.log('score: ', score, 'current question: ', currentQuestionIdx)
     }
   }
 
   nextQuestion = () => {
-    const { tenQuestions, currentQuestionIdx } = this.state
+    const { currentQuestionIdx } = this.state
     const nextQuestionIdx = currentQuestionIdx + 1;
-    this.setQuestion(tenQuestions[currentQuestionIdx]);
-    this.setState({
-      showAnswer: false,
-      currentQuestionIdx: nextQuestionIdx
-    })
-
-    if (currentQuestionIdx === this.state.total) {
+    if (nextQuestionIdx > this.state.total) {
       this.setState({
         gameOver: true
       })
+    } else {
+      this.setQuestion(nextQuestionIdx);
+
+      this.setState({
+        showAnswer: false,
+        currentQuestionIdx: nextQuestionIdx
+      })
     }
   }
+
+  startGame = () => {
+    // when we start the game, we set playing to true and load the first question from our randomized questions list
+    this.setState({ playing: true })
+    this.setQuestion(0)
+  }
+
 
   resetGame = () => {
     this.setState({
@@ -170,10 +157,9 @@ class Game extends Component {
     }
 
     if (this.state.gameOver) {
-      return <Results
-                resetGame={this.resetGame}
-                score={this.state.score}
-              />
+      return (
+        <Results resetGame={this.resetGame} score={this.state.score} />
+      )
     }
 
     const {
