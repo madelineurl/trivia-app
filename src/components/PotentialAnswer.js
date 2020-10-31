@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+//import PropTypes from 'prop-types'
 
 const PotentialAnswer = ({ selected, content, handleChange, showAnswer }) => {
   return (
@@ -18,10 +18,10 @@ const PotentialAnswer = ({ selected, content, handleChange, showAnswer }) => {
   )
 }
 
-PotentialAnswer.propTypes = {
-  content: PropTypes.string.isRequired,
-  selected: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired
-}
+// PotentialAnswer.propTypes = {
+//   content: PropTypes.string.isRequired,
+//   selected: PropTypes.string.isRequired,
+//   handleChange: PropTypes.func.isRequired
+// }
 
 export default PotentialAnswer

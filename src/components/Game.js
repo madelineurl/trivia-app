@@ -120,7 +120,6 @@ class Game extends Component {
       })
     } else {
       this.setQuestion(nextQuestionIdx);
-
       this.setState({
         showAnswer: false,
         currentQuestionIdx: nextQuestionIdx
