@@ -9,7 +9,7 @@ const StartScreen = ({ startGame }) => {
       </h2>
       <Button
         text='Play'
-        className='button'
+        className='play button'
         onClick={startGame}
       />
     </>

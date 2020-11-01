@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types'
+import { Button } from '../components'
 
 const Results = ({ score, resetGame }) => {
   return (
     <>
       <h2>Game over!</h2>
       <h3>You got {score} out of 10</h3>
-      <button
-        type='button'
+      <Button
         onClick={resetGame}
         className='button'
-      >
-          Play again
-      </button>
+        text='Play again'
+      />
     </>
   )
 }

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Question, PotentialAnswer, CorrectAnswer, Count, Button } from '../components/'
+import { Question, AnswerOptions, CorrectAnswer, Count, Button } from '../components/'
 
 const Display = (props) => {
   const {
@@ -23,21 +23,16 @@ const Display = (props) => {
           currentQuestion={counter}
           total={total}
         />
-      <div className='display-container flex fade-in'>
+      <div className='display-container flex'>
         <Question content={question}/>
         <div className='answer-options-container flex'>
           <div className='answer-options'>
-            {
-              potentialAnswers.map(candidate => (
-                <PotentialAnswer
-                  key={candidate}
-                  content={candidate}
-                  handleChange={setUserAnswer}
-                  selected={userAnswer}
-                  showAnswer={showAnswer}
-                />
-              ))
-            }
+            <AnswerOptions
+              answerOptions={potentialAnswers}
+              userAnswer={userAnswer}
+              setUserAnswer={setUserAnswer}
+              showAnswer={showAnswer}
+            />
             <Button
               className='submit button'
               onClick={submitAnswer}

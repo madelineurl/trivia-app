@@ -16,8 +16,8 @@ You can see the Github project board used while building this project at https:/
 
 ## Future updates
 
-Up next for this project: implementing a login/logout flow and storing user and game data in a database so users can practice more than once. I'd also like to improve the user interface design and CSS transitions.
+Up next for this project: implementing a login/logout flow and storing user and game data in a database so users can practice more than once. Potentially introducing a state management tool to simplify prop drilling through React components. I'd also like to improve the user interface design and CSS transitions.
 
 ## Complexity
 
-The pickTenRandomQuestions() function uses a nested loop to populate the game state with ten random questions. This function runs with a big O of n^2, and I'd like to optimize it in the future.
+The pickTenRandomQuestions() function uses a nested loop to populate the game state with ten random questions. This function has a big O runtime of n^2, and I'd like to optimize it in the future.

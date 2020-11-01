@@ -154,19 +154,10 @@ class Game extends Component {
   }
 
   render() {
-    if (!this.state.playing) {
-      return  <StartScreen startGame={this.startGame} />
-    }
-
-    if (this.state.gameOver) {
-      return (
-        <Results resetGame={this.resetGame} score={this.state.score} />
-      )
-    }
-
     const {
       correctAnswer,
       total,
+      score,
       answerOptions,
       userAnswer,
       currentQuestion,
@@ -175,6 +166,16 @@ class Game extends Component {
       answerColor,
       selectionRequired
     } = this.state
+
+    if (!this.state.playing) {
+      return  <StartScreen startGame={this.startGame} />
+    }
+
+    if (this.state.gameOver) {
+      return (
+        <Results resetGame={this.resetGame} score={score} />
+      )
+    }
 
     return (
       <Display

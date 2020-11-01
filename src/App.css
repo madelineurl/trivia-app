@@ -20,6 +20,10 @@
   animation: fadeIn ease 2s;
 }
 
+.play {
+  align-self: center;
+}
+
 .display-container {
   flex-direction: column;
   align-items: flex-start;
@@ -64,10 +68,9 @@
 }
 
 .show-answer {
-  /* margin-left: 10vw; */
   position: relative;
   left: 50px;
-  top: 3vh;
+  top: 10vh;
   flex-direction: column;
   align-items: flex-end;
 }
