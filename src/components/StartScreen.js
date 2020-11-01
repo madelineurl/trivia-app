@@ -7,6 +7,7 @@ const StartScreen = ({ startGame }) => {
       <h2>
         Welcome to the Trivia App!
       </h2>
+      <p>Each round has 10 questions.</p>
       <Button
         text='Play'
         className='play button'

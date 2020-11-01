@@ -173,7 +173,7 @@ class Game extends Component {
 
     if (this.state.gameOver) {
       return (
-        <Results resetGame={this.resetGame} score={score} />
+        <Results resetGame={this.resetGame} score={score} total={total}/>
       )
     }
 

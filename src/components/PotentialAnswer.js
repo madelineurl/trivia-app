@@ -12,7 +12,7 @@ const PotentialAnswer = ({ selected, content, handleChange, showAnswer }) => {
           disabled={showAnswer}
           className='input'
         />
-        <label htmlFor={content} className='label' >
+        <label htmlFor={content} className='label' aria-labelledby={content} >
           {content}
         </label>
     </div>

@@ -1,9 +1,6 @@
 {
   "short_name": "Trivia App",
   "name": "Madeline Higgins' Tandem Trivia Challenge",
-  "icons": [
-
-  ],
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",

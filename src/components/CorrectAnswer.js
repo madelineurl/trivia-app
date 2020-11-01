@@ -5,7 +5,7 @@ const ShowAnswer = ({ answerColor, answer, nextQuestion }) => {
   return (
     <div className='show-answer'>
       <div className='correct-answer'>
-        <div className={answerColor}>{answer}</div>
+        <div className={answerColor} data-testid='correct-answer'>{answer}</div>
         <Button
           className='next button'
           onClick={nextQuestion}

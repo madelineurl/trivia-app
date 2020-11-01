@@ -1,28 +1,24 @@
 import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event';
-import App from '../App';
-import { Game, Question, Count, Results, CorrectAnswer } from '../components'
-import {
-  render,
-  screen,
-  // Tip: all queries are also exposed on an object
-  // called "queries" which you could import here as well
-} from '@testing-library/react'
+import { Game, Question, AnswerOptions, Count, Results, CorrectAnswer } from '../components'
+import { render, screen } from '@testing-library/react'
 
 
-describe('App', () => {
-  it('renders game component', () => {
-    render(<App />);
+describe("Game", () => {
+  it("renders the start screen initially", () => {
+    render(<Game />);
 
-    // getByText expects a string or regular expression
     expect(screen.getByText('Welcome to the Trivia App!')).toBeInTheDocument();
-    //expect(screen.getByRole('button')).toHaveTextContent('Play');
-    expect(screen.getByText('Play')).toBeInTheDocument();
+    expect(screen.getByText('Each round has 10 questions.')).toBeInTheDocument();
   })
-})
 
-describe('Game', () => {
-  it('renders display component upon clicking play',  () => {
+  it("renders a 'play' button", () => {
+    render(<Game />);
+
+    expect(screen.getByRole('button')).toHaveTextContent('Play');
+  })
+
+  it("the 'play' button renders the first question when clicked",  () => {
     render(<Game />);
 
     userEvent.click(screen.getByText('Play'))
@@ -30,33 +26,200 @@ describe('Game', () => {
     expect(screen.getByRole('button')).toHaveTextContent('Submit');
     expect(screen.getByText('Question 1 of 10')).toBeInTheDocument();
   })
+
+  it("the 'submit' button shows a warning if no value is selected",  () => {
+    render(<Game />);
+
+    userEvent.click(screen.getByText('Play'))
+    userEvent.click(screen.getByText('Submit'))
+
+    expect(screen.getByText('Please select an answer')).toBeInTheDocument();
+  })
+
+  it("the warning disappears once an option is selected",  () => {
+    render(<Game />);
+
+    userEvent.click(screen.getByText('Play'))
+    userEvent.click(screen.getByText('Submit'))
+
+    expect(screen.getByText('Please select an answer')).toBeInTheDocument();
+
+    const inputs = (screen.getAllByRole('radio'))
+    userEvent.click(inputs[0])
+
+    expect(screen.queryByText(/Please select an answer/)).toBeNull();
+  })
+
+  it("displays the selected answer as 'checked'",  () => {
+    render(<Game />);
+
+    userEvent.click(screen.getByText('Play'))
+
+    const answers = (screen.getAllByRole('radio'))
+    userEvent.click(answers[0])
+
+    expect(answers[0]).toBeChecked();
+  })
+
+  it("only one answer can be checked at a time",  () => {
+    render(<Game />);
+
+    userEvent.click(screen.getByText('Play'))
+
+    const answers = (screen.getAllByRole('radio'))
+    userEvent.click(answers[0])
+
+    expect(answers[0]).toBeChecked();
+
+    userEvent.click(answers[2]);
+
+    expect(answers[2]).toBeChecked();
+    // does the equivalent 'to not be checked' exist?
+    // unsuccessfully tried expect(answers[2]).toHaveAttribute('checked', 'false');
+  })
+
+  it("disables option inputs after the user submits their answer",  () => {
+    render(<Game />);
+
+    userEvent.click(screen.getByText('Play'))
+
+    const answers = (screen.getAllByRole('radio'))
+    userEvent.click(answers[0])
+    userEvent.click(screen.getByRole('button'))
+
+    expect(answers[0]).toBeDisabled();
+    expect(answers[1]).toBeDisabled();
+    expect(answers[2]).toBeDisabled();
+    expect(answers[3]).toBeDisabled();
+  })
+
+  it("displays the correct answer after the user submits their answer",  () => {
+    render(<Game />);
+
+    userEvent.click(screen.getByText('Play'))
+
+    const answers = (screen.getAllByRole('radio'))
+    userEvent.click(answers[0])
+    userEvent.click(screen.getByText('Submit'))
+
+    // resulting text is dynamic here, so getting by testId as last resort
+    expect(screen.getByTestId('correct-answer')).toBeInTheDocument()
+  })
+
+  it("displays a 'next' button along with the correct answer",  () => {
+    render(<Game />);
+
+    userEvent.click(screen.getByText('Play'))
+
+    const answers = (screen.getAllByRole('radio'))
+    userEvent.click(answers[0])
+    userEvent.click(screen.getByText('Submit'))
+    const buttons = screen.getAllByRole('button')
+
+    expect(buttons[1]).toHaveTextContent('→')
+  })
 })
 
-describe('Count', () => {
-  it('renders the current question count and total', () => {
-    const count = 1;
-    const total = 9;
+describe("Count", () => {
+  const props = {
+    currentQuestion: 1,
+    total: 9
+  }
 
-    render(<Count currentQuestion={count} total={total} />)
+  const differentProps = {
+    currentQuestion: 0,
+    total: 19
+  }
 
-    expect(screen.getByText(`Question ${count + 1} of ${total + 1}`)).toBeInTheDocument();
+  it('renders the current question count and total, shifted by one index, passed in as props', () => {
+    render(<Count {...props} />)
+
+    expect(screen.getByText(/2/)).toBeInTheDocument();
+    expect(screen.getByText(/10/)).toBeInTheDocument();
+  })
+
+  it('renders a different question count and total, shifted by one index, passed in as props', () => {
+
+    render(<Count {...differentProps} />)
+
+    expect(screen.getByText(/1/)).toBeInTheDocument();
+    expect(screen.getByText(/20/)).toBeInTheDocument();
   })
 })
 
 describe('Question', () => {
-  it('renders the appropriate question passed as props', () => {
-    const question = 'Who threw the first brick at the Stonewall riots?'
+  const question = 'Who threw the first brick at the Stonewall riots?';
+  const newQuestion = 'What cultural event sparked the birth of Chicago House music?';
 
+  it('renders a question passed as props', () => {
     render(<Question content={question} />)
 
     expect(screen.getByText('Who threw the first brick at the Stonewall riots?')).toBeInTheDocument();
   })
+
+  it('renders a different question passed as props', () => {
+    render(<Question content={newQuestion} />)
+
+    expect(screen.getByText('What cultural event sparked the birth of Chicago House music?')).toBeInTheDocument();
+  })
+
+  it('renders a question with the correct class name', () => {
+    render(<Question content={question} />)
+
+    expect(screen.getByText('Who threw the first brick at the Stonewall riots?')).toHaveClass('question');
+  })
+})
+
+describe('AnswerOptions', () => {
+  const props = {
+    answerOptions: ['Jane Fonda', 'Audre Lorde', 'Harvey Milk', 'Marsha P Johnson'],
+    userAnswer: '',
+    showAnswer: false,
+    setUserAnswer: jest.fn()
+  }
+
+  it('displays answer options passed in as props', () => {
+    render(<AnswerOptions {...props} />)
+
+    expect(screen.getByText('Jane Fonda')).toBeInTheDocument();
+    expect(screen.getByText('Harvey Milk')).toBeInTheDocument();
+    expect(screen.getByText('Marsha P Johnson')).toBeInTheDocument();
+    expect(screen.getByText('Audre Lorde')).toBeInTheDocument();
+  })
+
+  it("displays options as radio inputs", () => {
+    render(<AnswerOptions {...props} />)
+
+    const options = screen.getAllByRole('radio')
+    expect(options.length).toBe(props.answerOptions.length)
+  })
+
+
+  it('renders answer options with the correct class name', () => {
+    render(<AnswerOptions {...props} />)
+
+    const options = screen.getAllByRole('radio')
+
+    options.forEach(answer => {
+      expect(answer).toHaveClass('input')
+    })
+  })
+
+  // it("sets an option as checked when a user clicks the input", () => {
+  //   render(<AnswerOptions {...props} />)
+
+  //   userEvent.click(screen.getByLabelText('Jane Fonda'))
+
+  //   screen.debug();
+  //   //expect(screen.getByText('Jane Fonda')).toHaveAttribute('checked')
+  //   // expect checked to be true
+  // })
 })
 
 describe('CorrectAnswer', () => {
   const answerColor = 'incorrect';
   const answer ='Marsha P Johnson';
-  const nextQuestion = () => { return 'testing' }
+  const nextQuestion = jest.fn()
 
   it('renders the correct answer passed in as props', () => {
     render(<CorrectAnswer
@@ -81,52 +244,36 @@ describe('CorrectAnswer', () => {
 })
 
 describe('Results', () => {
-  const score = 8;
-  const resetGame = () => {
-    //return <Game />
-    return <div>Welcome to the Trivia App!</div>
-  }
+  let score = 8;
+  let total = 10;
+  const resetGame = jest.fn()
 
-  it('renders user score based on props', () => {
-    render(<Results score={score} resetGame={resetGame} />)
+  it('displays user score out of the total, passed in as props', () => {
+    render(<Results score={score} resetGame={resetGame} total={total} />)
 
-    expect(screen.getByText(`You got ${score} out of 10`)).toBeInTheDocument();
+    expect(screen.getByText(`You got 8 out of 10`)).toBeInTheDocument();
+  })
+
+  it('displays a different score and different total, passed in as props', () => {
+    score = 5;
+    total = 20;
+    render(<Results score={score} resetGame={resetGame} total={total} />)
+
+    expect(screen.getByText(`You got 5 out of 20`)).toBeInTheDocument();
+  })
+
+  it("displays a 'play again' button", () => {
+    render(<Results score={score} resetGame={resetGame} total={total} />)
+
     expect(screen.getByRole('button')).toHaveTextContent('Play again');
   })
+
+  // it("the 'play again' button re-renders the home page when clicked", () => {
+  //   render(<Results score={score} resetGame={resetGame} total={total} />)
+
+  //   userEvent.click(screen.getByRole('button'))
+
+  //   expect(screen.getByText('Welcome to the Trivia App!')).toBeInTheDocument();
+  // })
 })
-
-
-// describe('Display', () => {
-//     const question = 'What is the national animal of Scotland?'
-//     const answer = 'Unicorn'
-//     const options = ['Seal', 'Walrus', 'Scottie']
-
-//     const setUserAnswer = () => 'Hello!'
-//     const submitAnswer = () => 'Answer'
-//     const nextQuestion = () => 'next Question'
-
-//     render(<Display
-//         counter={0}
-//         total={9}
-//         question={question}
-//         answer={answer}
-//         potentialAnswers={options}
-//         showAnswer={false}
-//         answerColor='red'
-//         setUserAnswer={setUserAnswer}
-//         submitAnswer={submitAnswer}
-//         nextQuestion={nextQuestion}
-//     />)
-
-//   it('renders the correct data when provided the required props', () => {
-//     expect(screen.getByRole('heading')).toHaveTextContent('What is the national animal of Scotland?')
-//     screen.getByText('Walrus').toBeInTheDocument();
-//   })
-
-//   it('renders the correct answer after user submission', () => {
-//     userEvent.click(screen.getByRole('button'))
-
-//     expect(screen.getByText('Unicorn')).toBeInTheDocument();
-//   })
-// })
 
