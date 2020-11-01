@@ -10,8 +10,9 @@ const PotentialAnswer = ({ selected, content, handleChange, showAnswer }) => {
           checked={content === selected}
           onChange={handleChange}
           disabled={showAnswer}
+          className='input'
         />
-        <label htmlFor={content}>
+        <label htmlFor={content} className='label' >
           {content}
         </label>
     </div>

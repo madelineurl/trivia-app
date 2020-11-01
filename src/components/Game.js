@@ -9,6 +9,7 @@ class Game extends Component {
       playing: false,
       gameOver: false,
       showAnswer: false,
+      warning: false,
       tenQuestions: [],
       currentQuestion: '',
       correctAnswer: '',
@@ -95,7 +96,9 @@ class Game extends Component {
     const { correctAnswer, score, userAnswer } = this.state;
     const answerColor = userAnswer === correctAnswer ? 'correct' : 'incorrect'
 
-    if (userAnswer) {
+    if (!userAnswer) {
+      this.setState({ warning: true })
+    } else {
       if (userAnswer === correctAnswer) {
         const newScore = score + 1;
         this.setState({

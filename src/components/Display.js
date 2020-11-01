@@ -22,7 +22,7 @@ const Display = (props) => {
           currentQuestion={counter}
           total={total}
         />
-      <div className='display-container'>
+      <div className='display-container flex'>
         <Question content={question}/>
         <div className='answer-options-container flex'>
           <div>

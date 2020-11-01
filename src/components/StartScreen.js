@@ -2,16 +2,14 @@ import PropTypes from 'prop-types'
 
 const StartScreen = ({ startGame }) => {
   return (
-    <div className="App">
-    <header className="App-header">
-      <p>
+    <>
+      <h2>
         Welcome to the Trivia App!
-      </p>
-      <button onClick={startGame}>
+      </h2>
+      <button onClick={startGame} className='button'>
         Play
       </button>
-    </header>
-  </div>
+    </>
   )
 }
 

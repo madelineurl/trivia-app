@@ -3,7 +3,7 @@ import { Game } from './components'
 
 const App = () => {
   return (
-    <header className="game header">
+    <header className="header">
       <div className='app'>
         <Game />
       </div>
