@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { Question, PotentialAnswer, Count } from '../components/'
+import { Question, PotentialAnswer, CorrectAnswer, Count, Button } from '../components/'
 
 const Display = (props) => {
   const {
@@ -13,7 +13,8 @@ const Display = (props) => {
     submitAnswer,
     showAnswer,
     answerColor,
-    nextQuestion
+    nextQuestion,
+    selectionRequired
   } = props;
 
   return (
@@ -22,10 +23,10 @@ const Display = (props) => {
           currentQuestion={counter}
           total={total}
         />
-      <div className='display-container flex'>
+      <div className='display-container flex fade-in'>
         <Question content={question}/>
         <div className='answer-options-container flex'>
-          <div>
+          <div className='answer-options'>
             {
               potentialAnswers.map(candidate => (
                 <PotentialAnswer
@@ -37,27 +38,27 @@ const Display = (props) => {
                 />
               ))
             }
-            <button
-              className='button'
-              type='button'
+            <Button
+              className='submit button'
+              onClick={submitAnswer}
               disabled={showAnswer}
-              onClick={submitAnswer}>
-                Submit
-            </button>
-          </div>
-        <div className='show-answer'>
+              text='Submit'
+            />
             {
-              showAnswer &&
-                <div className='correct-answer'>
-                  <div className={answerColor}>{answer}</div>
-                  <button
-                    className='button'
-                    onClick={nextQuestion}>
-                      →
-                  </button>
-                </div>
+              selectionRequired &&
+              <div className='warning'>
+                Please select an answer
+              </div>
             }
-        </div>
+          </div>
+          {
+            showAnswer &&
+            <CorrectAnswer
+              nextQuestion={nextQuestion}
+              answerColor={answerColor}
+              answer={answer}
+            />
+          }
         </div>
       </div>
     </>
@@ -74,7 +75,8 @@ Display.propTypes = {
   submitAnswer: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
   showAnswer: PropTypes.bool.isRequired,
-  answerColor: PropTypes.string.isRequired
+  answerColor: PropTypes.string.isRequired,
+  selectionRequired: PropTypes.bool.isRequired
 }
 
 export default Display;

@@ -3,8 +3,8 @@ import { Game } from './components'
 
 const App = () => {
   return (
-    <header className="header">
-      <div className='app'>
+    <header className='header'>
+      <div className='app fade-in'>
         <Game />
       </div>
     </header>

@@ -16,12 +16,16 @@
   display: flex;
 }
 
+.fade-in {
+  animation: fadeIn ease 2s;
+}
+
 .display-container {
   flex-direction: column;
   align-items: flex-start;
   flex-wrap: wrap;
   position: relative;
-  width: 55vw;
+  width: 50vw;
   height: 50vh;
   top: 15vh;
   border: 1px solid white;
@@ -44,6 +48,14 @@
   flex-wrap: wrap;
 }
 
+.warning {
+  color: rgb(102, 36, 27);
+  margin-left: 1rem;
+}
+
+.answer-options-container {
+  justify-content: flex-end;
+}
 
 .answer-option {
   align-self: flex-start;
@@ -52,12 +64,22 @@
 }
 
 .show-answer {
-  margin-left: 10vw;
+  /* margin-left: 10vw; */
+  position: relative;
+  left: 50px;
+  top: 3vh;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.next {
+  position: relative;
+  top: 2vh;
 }
 
 .correct-answer {
   flex-wrap: wrap;
-  width: 10%;
+  width: 20%;
 }
 
 .correct {
@@ -72,10 +94,10 @@
 
 .button {
   padding: .3rem;
-  margin: 1rem;
+  /* margin: 1rem; */
   border: none;
   background-color: #596276;
-  color: rgb(213, 214, 214);
+  color: rgb(254, 255, 255);
   border-radius: 5px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -83,6 +105,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 1rem;
+}
+
+.submit {
+  margin: 1rem;
 }
 
 .input {
@@ -97,9 +123,15 @@
   background-color: rgb(59, 59, 82);
 }
 
-/* @keyframes fade-in {
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
 
-} */
+@keyframes fadeOut {
+  100% { opacity: 1; }
+  0% { opacity: 0; }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

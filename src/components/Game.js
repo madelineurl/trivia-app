@@ -9,7 +9,7 @@ class Game extends Component {
       playing: false,
       gameOver: false,
       showAnswer: false,
-      warning: false,
+      selectionRequired: false,
       tenQuestions: [],
       currentQuestion: '',
       correctAnswer: '',
@@ -89,15 +89,15 @@ class Game extends Component {
   }
 
   setUserAnswer = (evt) => {
-    this.setState({ userAnswer: evt.target.value })
+    this.setState({ selectionRequired: false, userAnswer: evt.target.value })
   }
 
   submitAnswer = () => {
-    const { correctAnswer, score, userAnswer } = this.state;
+    const { correctAnswer, score, userAnswer, showAnswer } = this.state;
     const answerColor = userAnswer === correctAnswer ? 'correct' : 'incorrect'
 
-    if (!userAnswer) {
-      this.setState({ warning: true })
+    if (!userAnswer && !showAnswer) {
+      this.setState({ selectionRequired: true })
     } else {
       if (userAnswer === correctAnswer) {
         const newScore = score + 1;
@@ -172,7 +172,8 @@ class Game extends Component {
       currentQuestion,
       currentQuestionIdx,
       showAnswer,
-      answerColor
+      answerColor,
+      selectionRequired
     } = this.state
 
     return (
@@ -188,6 +189,7 @@ class Game extends Component {
         showAnswer={showAnswer}
         nextQuestion={this.nextQuestion}
         answerColor={answerColor}
+        selectionRequired={selectionRequired}
       />
     );
   }

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { Button } from '../components'
 
 const StartScreen = ({ startGame }) => {
   return (
@@ -6,9 +7,11 @@ const StartScreen = ({ startGame }) => {
       <h2>
         Welcome to the Trivia App!
       </h2>
-      <button onClick={startGame} className='button'>
-        Play
-      </button>
+      <Button
+        text='Play'
+        className='button'
+        onClick={startGame}
+      />
     </>
   )
 }
