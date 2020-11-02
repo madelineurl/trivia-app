@@ -12,8 +12,11 @@ const PotentialAnswer = ({ selected, content, handleChange, showAnswer }) => {
           disabled={showAnswer}
           className='input'
         />
-        <label htmlFor={content} className='label' aria-labelledby={content} >
-          {content}
+        <label
+          htmlFor={content}
+          className='label'
+          aria-labelledby={content} >
+            {content}
         </label>
     </div>
   )
@@ -22,7 +25,8 @@ const PotentialAnswer = ({ selected, content, handleChange, showAnswer }) => {
 PotentialAnswer.propTypes = {
   content: PropTypes.string.isRequired,
   selected: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired,
+  showAnswer: PropTypes.bool.isRequired
 }
 
 export default PotentialAnswer

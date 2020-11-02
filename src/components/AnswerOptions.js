@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types'
 import { PotentialAnswer } from '../components'
 
-const AnswerOptions = ({ answerOptions, setUserAnswer, userAnswer, showAnswer }) => {
+const AnswerOptions = (props) => {
+  const { answerOptions, setUserAnswer, userAnswer, showAnswer } = props;
   return (
     <>
       {

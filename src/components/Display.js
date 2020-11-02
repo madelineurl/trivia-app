@@ -1,5 +1,11 @@
 import PropTypes from 'prop-types'
-import { Question, AnswerOptions, CorrectAnswer, Count, Button } from '../components/'
+import {
+  Question,
+  AnswerOptions,
+  CorrectAnswer,
+  Count,
+  Button
+} from '../components/'
 
 const Display = (props) => {
   const {

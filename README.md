@@ -10,7 +10,7 @@ Run npm start to launch the react start script, which will build the code and op
 
 ## npm test
 
-Run npm test to check changes against the unit tests written in App.test.js. These tests employ Jest and React Testing Library to mock component behavior from a user experience perspective, though they're not yet as comprehensive as I'd like.
+Run npm test to initialize the unit tests written in the src/tests folder. These tests employ Jest and React Testing Library to mock component behavior from a user experience perspective.
 
 ## Project Board
 
